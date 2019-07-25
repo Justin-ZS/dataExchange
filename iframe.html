@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>iframe</title>
+</head>
+
+<body>
+
+</body>
+<script src="./main.js"></script>
+<script src="./dataExchange.js"></script>
+<script>
+    const client = new Exchanger({ receiver: window.parent });
+    client.on('update', plugin.update);
+    client.on('Refresh', plugin.refresh || plugin.update);
+    client.on('DataChange', plugin.dataChange || plugin.update);
+    client.on('PropertyChange', plugin.dataChange || plugin.update);
+    client.send('InitSuccess');
+</script>
+
+</html>

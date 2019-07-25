@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Host</title>
+</head>
+
+<body>
+    <iframe id="myIframe" src="./iframe.html" sandbox="allow-scripts"></iframe>
+</body>
+<script src="./dataExchange.js"></script>
+<script>
+    const server = new Exchanger();
+    const client = document.getElementById('myIframe').contentWindow;
+    const postData = (data) => server.send2(client, 'DataChange', data);
+    const onClintInited = () => {
+        server.off('InitSuccess', onClintInited);
+        server.on('ShowTooltip', () => {});
+        server.on('HideTooltip', () => {});
+
+        postData('first message').then(res => {
+            console.log(res);
+        }).then(() => {
+            postData(' error').catch(err => {
+                console.warn("An error occur in plugin:", err);
+            })
+        })
+    }
+    server.on('InitSuccess', onClintInited);
+    // read plugin config
+    fetch("config.json").then(res => res.json()).then(json => console.log(json));
+</script>
+
+</html>
